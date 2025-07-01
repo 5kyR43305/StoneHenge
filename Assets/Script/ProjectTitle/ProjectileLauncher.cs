@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ProjectTitleLauncher : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class ProjectTitleLauncher : MonoBehaviour
     public LineRenderer lineRenderer;
     public int linePoints = 100;
     public float timeIntervallnPoints = 0.01f;
-
 
     void Update()
     {
@@ -24,11 +24,7 @@ public class ProjectTitleLauncher : MonoBehaviour
             else
                 lineRenderer.enabled = false;
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            var _projectile = Instantiate(projectile, launcherPoint.position, launcherPoint.rotation);
-            _projectile.GetComponent<Rigidbody>().linearVelocity = launchSpeed * launcherPoint.up;
-        }
+        
     }
     void DrawTrajectory()
     {
@@ -46,8 +42,5 @@ public class ProjectTitleLauncher : MonoBehaviour
             lineRenderer.SetPosition(i, origin + point);
             time += timeIntervallnPoints;
         }
-
-
-
     }
 }

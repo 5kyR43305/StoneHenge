@@ -257,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.8245173, y: -0.1303488, z: -7.1481767}
+  m_LocalPosition: {x: 4.8245173, y: -0.1303488, z: -6.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -539,37 +539,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!1 &522053332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 522053333}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &522053333
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522053332}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.858288, y: 2.1494753, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &849419500
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +723,7 @@ GameObject:
   - component: {fileID: 1780040372}
   - component: {fileID: 1780040373}
   - component: {fileID: 1780040374}
+  - component: {fileID: 1780040375}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -770,7 +740,7 @@ Transform:
   m_GameObject: {fileID: 1780040371}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.19, z: 0}
+  m_LocalPosition: {x: 0, y: 3.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -901,6 +871,23 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1780040375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780040371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4158b13758e1e4daa1ef2930bb9945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiDocument: {fileID: 233943276}
+  projectileData: {fileID: 11400000, guid: 771ea25cbf3aa3e4db82a7a787d5ef74, type: 2}
+  launcherPoint: {fileID: 1115147619}
+  projectilePrefab: {fileID: 4871241492553559747, guid: 76a4339689902dd498d42ccf74ac398d, type: 3}
+  launchSpeed: 10
 --- !u!1 &1917337112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,4 +1038,3 @@ SceneRoots:
   - {fileID: 2053984062}
   - {fileID: 849419501}
   - {fileID: 233943277}
-  - {fileID: 522053333}
