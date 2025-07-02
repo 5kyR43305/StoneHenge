@@ -11,8 +11,8 @@ public class ProjectTitleLauncher : MonoBehaviour
     public LineRenderer lineRenderer;
     public int linePoints = 100;
     public float timeIntervallnPoints = 0.01f;
-
-    void Update()
+    
+        void Update()
     {
         if (lineRenderer != null)
         {
@@ -22,14 +22,17 @@ public class ProjectTitleLauncher : MonoBehaviour
                 lineRenderer.enabled = true;
             }
             else
+            {
                 lineRenderer.enabled = false;
+            }
         }
-        
     }
+
     void DrawTrajectory()
     {
         Vector3 origin = launcherPoint.position;
         Vector3 startVelocity = launchSpeed * launcherPoint.up;
+
         lineRenderer.positionCount = linePoints;
         float time = 0;
 

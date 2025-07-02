@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ProjectileBinder : MonoBehaviour
+public class MainUI : MonoBehaviour
 {
-    [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private ProjectileSO projectileData;
-    [SerializeField] private Transform launcherPoint;
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float launchSpeed = 10f;
+    [SerializeField] UIDocument uiDocument;
+    [SerializeField] ProjectileSO projectileData;
+    [SerializeField] Transform launcherPoint;
+    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] Transform LaunchingPad;
 
     private GameObject currentProjectileInstance;
 
@@ -22,16 +22,14 @@ public class ProjectileBinder : MonoBehaviour
         }
 
         var root = uiDocument.rootVisualElement;
-
-        var speedSlider = root.Q<SliderInt>("speed");
-        var angleSlider = root.Q<SliderInt>("angle");
-        var massSlider = root.Q<SliderInt>("mass");
+        var speedSlider = root.Q<Slider>("speed");
+        var angleSlider = root.Q<Slider>("angle");
+        var massSlider = root.Q<Slider>("mass");
         var launchButton = root.Q<Button>("Launch");
-                
+
         speedSlider.value = projectileData.Speed;
         angleSlider.value = projectileData.Angle;
         massSlider.value = projectileData.Mass;
-
 
         speedSlider.RegisterValueChangedCallback(evt =>
         {
@@ -41,13 +39,15 @@ public class ProjectileBinder : MonoBehaviour
 
         angleSlider.RegisterValueChangedCallback(evt =>
         {
-            projectileData.Angle = evt.newValue;
+            float angle = evt.newValue;
+            LaunchingPad.transform.rotation = Quaternion.Euler(0, 0, angle);
         });
 
         massSlider.RegisterValueChangedCallback(evt =>
         {
             projectileData.Mass = evt.newValue;
             UpdateCurrentProjectileMass();
+            
         });
 
         launchButton.clicked += () =>
