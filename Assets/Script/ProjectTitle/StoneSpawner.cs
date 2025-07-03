@@ -23,10 +23,5 @@ public class StoneSpawner : MonoBehaviour
                 }
             }
         }
-    }
-
-    void Update()
-    {
-        
-    }
+    }    
 }
