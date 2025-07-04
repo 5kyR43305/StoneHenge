@@ -1,97 +1,80 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using System.Collections;
 public class MainUI : MonoBehaviour
 {
-    [SerializeField] UIDocument uiDocument;
-    [SerializeField] ProjectileSO projectileData;
-    [SerializeField] Transform launcherPoint;
-    [SerializeField] GameObject projectilePrefab;
-    [SerializeField] Transform LaunchingPad;
+    [SerializeField] UIDocument myUI;
+    [SerializeField] ProjectitleLauncher Launcher;
+    [SerializeField] Transform launchingPad;
+    VisualElement root;
 
-    private GameObject currentProjectileInstance;
+    Button launchButton;
+    Slider angleSlider;
+    Slider speedSlider;
+    Slider massSlider;
 
-    public System.Action OnLaunchRequested;
-
-    void Start()
+    private void Awake()
     {
-        if (uiDocument == null)
-        {
-            Debug.LogError("UIDocument is not assigned!");
-            return;
-        }
+        root = myUI.rootVisualElement;
 
-        var root = uiDocument.rootVisualElement;
-        var speedSlider = root.Q<Slider>("speed");
-        var angleSlider = root.Q<Slider>("angle");
-        var massSlider = root.Q<Slider>("mass");
-        var launchButton = root.Q<Button>("Launch");
+        speedSlider = root.Q<Slider>("speed");
+        angleSlider = root.Q<Slider>("angle");
+        massSlider = root.Q<Slider>("mass");
+        launchButton = root.Q<Button>("Launch");
 
-        speedSlider.value = projectileData.Speed;
-        angleSlider.value = projectileData.Angle;
-        massSlider.value = projectileData.Mass;
-
-        speedSlider.RegisterValueChangedCallback(evt =>
-        {
-            projectileData.Speed = evt.newValue;
-            UpdateCurrentProjectileSpeed();
-        });
+        launchButton.clicked += OnThrowButtonClick;
+        angleSlider.value = launchingPad.transform.eulerAngles.z;
 
         angleSlider.RegisterValueChangedCallback(evt =>
         {
             float angle = evt.newValue;
-            LaunchingPad.transform.rotation = Quaternion.Euler(0, 0, angle);
+            launchingPad.transform.rotation = Quaternion.Euler(0, 0, angle);
+        });
+
+        speedSlider.RegisterValueChangedCallback(evt =>
+        {
+            Launcher.launchSpeed = evt.newValue;
         });
 
         massSlider.RegisterValueChangedCallback(evt =>
         {
-            projectileData.Mass = evt.newValue;
-            UpdateCurrentProjectileMass();
-            
+            if (Launcher.projectile != null)
+            {
+                Rigidbody rb = Launcher.projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.mass = evt.newValue;
+                }
+            }
         });
-
-        launchButton.clicked += () =>
-        {
-            Debug.Log("Launcher Start!");
-            OnLaunchRequested?.Invoke();
-            SpawnProjectile();
-        };
     }
 
-    void SpawnProjectile()
+    private void OnThrowButtonClick()
     {
-        currentProjectileInstance = Instantiate(projectilePrefab, launcherPoint.position, launcherPoint.rotation);
-        ApplyValuesToProjectile(currentProjectileInstance);
+        Launcher.ThrowStone();
+        LockButtonSAndSlider();
+        StartCoroutine(UnlockAfterDelay(2f)); // Start coroutine to unlock after 2 seconds
     }
 
-    void ApplyValuesToProjectile(GameObject proj)
+    void LockButtonSAndSlider()
     {
-        var rb = proj.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
-        rb.mass = projectileData.Mass;
-        Vector3 launchDir = Quaternion.Euler(-projectileData.Angle, 0, 0) * launcherPoint.up;
-        rb.linearVelocity = launchDir * projectileData.Speed;
+        launchButton.SetEnabled(false);
+        speedSlider.SetEnabled(false);
+        angleSlider.SetEnabled(false);
+        massSlider.SetEnabled(false);
     }
 
-    void UpdateCurrentProjectileSpeed()
+    void UnLockButtonSAndSlider()
     {
-        if (currentProjectileInstance == null) return;
-
-        var rb = currentProjectileInstance.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
-        Vector3 launchDir = Quaternion.Euler(-projectileData.Angle, 0, 0) * launcherPoint.up;
-        rb.linearVelocity = launchDir * projectileData.Speed;
+        launchButton.SetEnabled(true);
+        speedSlider.SetEnabled(true);
+        angleSlider.SetEnabled(true);
+        massSlider.SetEnabled(true);
     }
 
-    void UpdateCurrentProjectileMass()
+    IEnumerator UnlockAfterDelay(float delay)
     {
-        if (currentProjectileInstance == null) return;
-
-        var rb = currentProjectileInstance.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
-        rb.mass = projectileData.Mass;
+        yield return new WaitForSeconds(delay);
+        UnLockButtonSAndSlider();
     }
 }

@@ -1,7 +1,7 @@
+using Unity.Entities.UniversalDelegates;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class ProjectTitleLauncher : MonoBehaviour
+public class ProjectitleLauncher : MonoBehaviour
 {
     public Transform launcherPoint;
     public GameObject projectile;
@@ -9,10 +9,10 @@ public class ProjectTitleLauncher : MonoBehaviour
 
     [Header("****Trajectory Display****")]
     public LineRenderer lineRenderer;
-    public int linePoints = 100;
     public float timeIntervallnPoints = 0.01f;
-    
-        void Update()
+    public int linePoints = 100;
+
+    void Update()
     {
         if (lineRenderer != null)
         {
@@ -22,9 +22,18 @@ public class ProjectTitleLauncher : MonoBehaviour
                 lineRenderer.enabled = true;
             }
             else
-            {
                 lineRenderer.enabled = false;
-            }
+        }
+        
+    }
+
+    public void ThrowStone()
+    {
+        var _projectile = Instantiate(projectile, launcherPoint.position, launcherPoint.rotation);
+        Rigidbody rb = _projectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = launchSpeed * launcherPoint.up;
         }
     }
 
@@ -35,13 +44,11 @@ public class ProjectTitleLauncher : MonoBehaviour
 
         lineRenderer.positionCount = linePoints;
         float time = 0;
-
         for (int i = 0; i < linePoints; i++)
         {
             var x = (startVelocity.x * time) + (Physics.gravity.x / 2 * time * time);
             var y = (startVelocity.y * time) + (Physics.gravity.y / 2 * time * time);
             Vector3 point = new Vector3(x, y, 0);
-
             lineRenderer.SetPosition(i, origin + point);
             time += timeIntervallnPoints;
         }
