@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    [SerializeField] private float speed = 5f;
-    
+    // public Transform player=null;      // Assign the Player's transform in the Inspector
+    public float speed = 5f;      // Movement speed
+
+
+    GameObject player;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
     }
-
 
     void Update()
     {
@@ -21,4 +22,3 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 }
-

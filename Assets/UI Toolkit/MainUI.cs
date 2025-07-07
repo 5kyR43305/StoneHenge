@@ -20,7 +20,7 @@ public class MainUI : MonoBehaviour
         speedSlider = root.Q<Slider>("speed");
         angleSlider = root.Q<Slider>("angle");
         massSlider = root.Q<Slider>("mass");
-        launchButton = root.Q<Button>("Launch");
+        launchButton = root.Q<Button>("launch");
 
         launchButton.clicked += OnThrowButtonClick;
         angleSlider.value = launchingPad.transform.eulerAngles.z;
